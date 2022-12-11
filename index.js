@@ -17,23 +17,36 @@ let createEmployeeRecords = function (employeeArrayData) {
 };
 
 //Creating time events
-let createTimeInEvent = function (employee, dateStamp) {
+let createTimeInEvent = function (dateStamp) {
   let [date, hour] = dateStamp.split("");
-  employee.timeInEvents.push({
+  this.timeInEvents.push({
     type: "TimeIn",
     hour: parseInt(hour, 10),
     date,
   });
-  return employee;
+  return this;
 };
 
-let createTimeOutEvent = function (employee, dateStamp) {
+let createTimeOutEvent = function (dateStamp) {
   let [date, hour] = dateStamp.split("");
-  employee.timeOutEvents.push({
+  this.timeOutEvents.push({
     type: "TimeOut",
     hour: parseInt(hour, 10),
     date,
   });
+  return this;
+};
+
+let hoursWorkedOnDate = function (workedHours) {
+  let inEvent = this.timeInEvents.find(function (a) {
+    return a.date === workedHours;
+  });
+
+  let outEvent = this.timeOutEvents.find(function (a) {
+    return a.date === workedHours;
+  });
+
+  return (outEvent.hour - inEvent.hour) / 100;
 };
 
 /*
